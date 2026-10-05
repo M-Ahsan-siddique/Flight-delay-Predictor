@@ -38,13 +38,26 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 
-    /* Hide Streamlit Header, Footer, and Chrome */
-    #MainMenu {visibility: hidden;}
-    header {visibility: hidden;}
-    footer {visibility: hidden;}
-    div[data-testid="stDecoration"] {display: none;}
-    div[data-testid="stToolbar"] {display: none;}
-    [data-testid="stSidebar"] {display: none;}
+    /* Completely eliminate Streamlit Header, Chrome, and Top Blank Gap */
+    #MainMenu { display: none !important; }
+    header, [data-testid="stHeader"] {
+        display: none !important;
+        height: 0px !important;
+        min-height: 0px !important;
+        padding: 0px !important;
+        margin: 0px !important;
+    }
+    footer, [data-testid="stFooter"] {
+        display: none !important;
+    }
+    div[data-testid="stDecoration"],
+    div[data-testid="stToolbar"],
+    [data-testid="stSidebar"],
+    div[data-testid="stStatusWidget"],
+    div[data-testid="stHeaderActionElements"] {
+        display: none !important;
+        height: 0px !important;
+    }
 
     /* Deep Obsidian Radar Grid Background */
     .stApp {
@@ -59,10 +72,16 @@ st.markdown("""
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    .main .block-container {
-        padding-top: 1.2rem !important;
-        padding-bottom: 4rem !important;
-        max-width: 1200px !important;
+    /* Fit Page Snugly with Minimal Top Padding */
+    .block-container,
+    div[data-testid="stMainBlockContainer"],
+    div[data-testid="stAppViewBlockContainer"],
+    .stMain .block-container,
+    .main .block-container,
+    section[data-testid="stMain"] > div {
+        padding-top: 0.8rem !important;
+        padding-bottom: 2.5rem !important;
+        max-width: 1240px !important;
     }
 
     /* Top DelayGuard Navbar */
@@ -129,25 +148,12 @@ st.markdown("""
         align-items: center;
         gap: 0.9rem;
     }
-    .dg-btn-premium {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.3) 100%);
-        border: 1px solid rgba(52, 211, 153, 0.4);
-        color: #6EE7B7;
-        font-size: 0.8rem;
-        font-weight: 700;
-        padding: 0.35rem 0.85rem;
-        border-radius: 9999px;
-        display: flex;
-        align-items: center;
-        gap: 0.35rem;
-    }
-
     /* Hero Section (Screenshot 1) */
     .dg-hero-box {
         text-align: center;
-        padding: 3rem 1.5rem 3.5rem 1.5rem;
+        padding: 1.2rem 1.5rem 2.2rem 1.5rem;
         max-width: 900px;
-        margin: 0 auto 2rem auto;
+        margin: 0 auto 1.5rem auto;
     }
     .dg-badge-pill {
         display: inline-flex;
@@ -630,11 +636,11 @@ def calculate_cancellation_risk(delay_prob, weather_cond, inbound_delay, distanc
 # 4. TOP NAVBAR (WITH ACTIVE PAGE ROUTING)
 # -----------------------------------------------------------------------------
 try:
-    nav_c1, nav_c2, nav_c3 = st.columns([1.3, 2.7, 1.4], vertical_alignment="center")
+    nav_left, nav_right = st.columns([1.5, 2.5], vertical_alignment="center")
 except TypeError:
-    nav_c1, nav_c2, nav_c3 = st.columns([1.3, 2.7, 1.4])
+    nav_left, nav_right = st.columns([1.5, 2.5])
 
-with nav_c1:
+with nav_left:
     st.markdown("""
     <div class="dg-logo">
         <svg class="dg-logo-svg" viewBox="0 0 24 24">
@@ -645,7 +651,7 @@ with nav_c1:
     </div>
     """, unsafe_allow_html=True)
 
-with nav_c2:
+with nav_right:
     try:
         btn_home, btn_pred, btn_hiw = st.columns(3, vertical_alignment="center")
     except TypeError:
@@ -660,16 +666,7 @@ with nav_c2:
         st.session_state['page'] = 'how_it_works'
         st.rerun()
 
-with nav_c3:
-    st.markdown("""
-    <div style="display:flex; justify-content:flex-end; align-items:center; gap:0.8rem;">
-        <div class="dg-btn-premium">✨ Premium</div>
-        <span style="font-size:0.95rem; cursor:pointer;">🔔</span>
-        <span style="font-size:0.85rem; font-weight:600; color:#E2E8F0;">👤 Sign In</span>
-    </div>
-    """, unsafe_allow_html=True)
-
-st.markdown("<hr style='border-color: rgba(255,255,255,0.06); margin: 0.8rem 0 2rem 0;'>", unsafe_allow_html=True)
+st.markdown("<hr style='border-color: rgba(255,255,255,0.06); margin: 0.4rem 0 1.2rem 0;'>", unsafe_allow_html=True)
 
 # =============================================================================
 # PAGE 1: LANDING PAGE (SCREENSHOT 1 MATCH - NO FORM HERE)
