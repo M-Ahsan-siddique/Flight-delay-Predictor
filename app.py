@@ -312,9 +312,28 @@ st.markdown("""
         transform: translateY(-2px) !important;
         box-shadow: 0 8px 35px rgba(16, 185, 129, 0.65) !important;
         color: #000000 !important;
+    /* Navbar specific container and button styling for perfect horizontal & vertical alignment */
+    div[data-testid="stHorizontalBlock"]:has(.dg-logo) {
+        align-items: center !important;
+        margin-bottom: 0.2rem !important;
+    }
+    div[data-testid="stHorizontalBlock"]:has(.dg-logo) div[data-testid="column"] {
+        display: flex !important;
+        align-items: center !important;
+    }
+    div[data-testid="stHorizontalBlock"]:has(.dg-logo) div.stButton > button {
+        height: 38px !important;
+        min-height: 38px !important;
+        padding: 0 0.8rem !important;
+        font-size: 0.88rem !important;
+        font-weight: 700 !important;
+        border-radius: 8px !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 
-    /* Announcement Box */
     .dg-announcement-box {
         display: flex;
         align-items: center;
@@ -610,11 +629,14 @@ def calculate_cancellation_risk(delay_prob, weather_cond, inbound_delay, distanc
 # -----------------------------------------------------------------------------
 # 4. TOP NAVBAR (WITH ACTIVE PAGE ROUTING)
 # -----------------------------------------------------------------------------
-nav_c1, nav_c2, nav_c3 = st.columns([1.5, 2.5, 1.2])
+try:
+    nav_c1, nav_c2, nav_c3 = st.columns([1.3, 2.7, 1.4], vertical_alignment="center")
+except TypeError:
+    nav_c1, nav_c2, nav_c3 = st.columns([1.3, 2.7, 1.4])
 
 with nav_c1:
     st.markdown("""
-    <div class="dg-logo" style="padding-top: 6px;">
+    <div class="dg-logo">
         <svg class="dg-logo-svg" viewBox="0 0 24 24">
             <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
         </svg>
@@ -624,7 +646,10 @@ with nav_c1:
     """, unsafe_allow_html=True)
 
 with nav_c2:
-    btn_home, btn_pred, btn_hiw = st.columns(3)
+    try:
+        btn_home, btn_pred, btn_hiw = st.columns(3, vertical_alignment="center")
+    except TypeError:
+        btn_home, btn_pred, btn_hiw = st.columns(3)
     if btn_home.button("🏠 Home", use_container_width=True):
         st.session_state['page'] = 'landing'
         st.rerun()
@@ -637,7 +662,7 @@ with nav_c2:
 
 with nav_c3:
     st.markdown("""
-    <div style="display:flex; justify-content:flex-end; align-items:center; gap:0.8rem; padding-top:6px;">
+    <div style="display:flex; justify-content:flex-end; align-items:center; gap:0.8rem;">
         <div class="dg-btn-premium">✨ Premium</div>
         <span style="font-size:0.95rem; cursor:pointer;">🔔</span>
         <span style="font-size:0.85rem; font-weight:600; color:#E2E8F0;">👤 Sign In</span>
