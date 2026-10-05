@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Large Raw Datasets (Exceeds GitHub 100MB limit and not needed for deployment)
+dataset/First dataset/
+dataset/Second dataset/
+catboost_info/
+
+# Backup and presentation files
+app.py.bak
+*.pptx
+sample_output.txt
+
+# Streamlit local secrets and environment configs
+.streamlit/secrets.toml
+.env
+
+# Virtual environments & IDEs
+venv/
+env/
+.venv/
+.idea/
+.vscode/
