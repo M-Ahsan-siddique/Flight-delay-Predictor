@@ -72,16 +72,20 @@ st.markdown("""
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* Fit Page Snugly with Minimal Top Padding */
+    /* Center the app container and fit viewport cleanly */
     .block-container,
     div[data-testid="stMainBlockContainer"],
     div[data-testid="stAppViewBlockContainer"],
     .stMain .block-container,
     .main .block-container,
     section[data-testid="stMain"] > div {
-        padding-top: 0.8rem !important;
-        padding-bottom: 2.5rem !important;
-        max-width: 1240px !important;
+        padding-top: 0.9rem !important;
+        padding-bottom: 2rem !important;
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+        max-width: 1080px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 
     /* Top DelayGuard Navbar */
@@ -94,7 +98,7 @@ st.markdown("""
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 14px;
         backdrop-filter: blur(20px);
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
     }
     .dg-logo {
@@ -148,12 +152,12 @@ st.markdown("""
         align-items: center;
         gap: 0.9rem;
     }
-    /* Hero Section (Screenshot 1) */
+    /* Hero Section (Landing Page) */
     .dg-hero-box {
         text-align: center;
-        padding: 1.2rem 1.5rem 2.2rem 1.5rem;
-        max-width: 900px;
-        margin: 0 auto 1.5rem auto;
+        padding: 1.2rem 1rem 0.6rem 1rem;
+        max-width: 820px;
+        margin: 0 auto;
     }
     .dg-badge-pill {
         display: inline-flex;
@@ -162,22 +166,22 @@ st.markdown("""
         background: rgba(16, 185, 129, 0.12);
         border: 1px solid rgba(16, 185, 129, 0.35);
         color: #34D399;
-        padding: 0.35rem 1rem;
+        padding: 0.32rem 0.95rem;
         border-radius: 9999px;
         font-size: 0.82rem;
         font-weight: 600;
         letter-spacing: 0.5px;
-        margin-bottom: 1.4rem;
-        box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+        margin-bottom: 1rem;
+        box-shadow: 0 0 16px rgba(16, 185, 129, 0.15);
     }
     .dg-hero-title {
         font-family: 'Plus Jakarta Sans', sans-serif;
-        font-size: 3.6rem;
+        font-size: clamp(2.3rem, 3.8vw, 3.2rem);
         font-weight: 800;
-        line-height: 1.15;
+        line-height: 1.18;
         color: #FFFFFF;
-        margin: 0.3rem auto 1.2rem auto;
-        letter-spacing: -1.2px;
+        margin: 0.2rem auto 0.9rem auto;
+        letter-spacing: -1px;
     }
     .dg-hero-gradient {
         background: linear-gradient(135deg, #10B981 0%, #34D399 50%, #6EE7B7 100%);
@@ -186,17 +190,17 @@ st.markdown("""
         display: inline-block;
     }
     .dg-hero-sub {
-        font-size: 1.1rem;
-        line-height: 1.65;
+        font-size: 1.04rem;
+        line-height: 1.6;
         color: #94A3B8;
-        max-width: 740px;
-        margin: 0 auto 2.2rem auto;
+        max-width: 680px;
+        margin: 0 auto 1.4rem auto;
         font-weight: 400;
     }
     .dg-hero-microcopy {
         font-size: 0.82rem;
         color: #64748B;
-        margin-top: 1rem;
+        margin-top: 0.8rem;
         text-align: center;
     }
 
@@ -299,45 +303,122 @@ st.markdown("""
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
     }
 
-    /* Full-Width Action Buttons */
-    div.stButton > button {
+    /* Primary Action Buttons */
+    div.stButton > button,
+    div.stButton > button[kind="primary"],
+    div.stButton > button[data-testid="stBaseButton-primary"] {
         background: linear-gradient(135deg, #059669 0%, #10B981 50%, #34D399 100%) !important;
         color: #042416 !important;
         font-family: 'Plus Jakarta Sans', sans-serif !important;
         font-weight: 800 !important;
-        font-size: 1rem !important;
-        letter-spacing: 0.5px !important;
+        font-size: 0.96rem !important;
+        letter-spacing: 0.3px !important;
         border: 1px solid rgba(52, 211, 153, 0.4) !important;
         border-radius: 10px !important;
-        padding: 0.85rem 1.6rem !important;
-        box-shadow: 0 4px 25px rgba(16, 185, 129, 0.45) !important;
+        padding: 0.75rem 1.4rem !important;
+        box-shadow: 0 4px 22px rgba(16, 185, 129, 0.4) !important;
         transition: all 0.25s ease !important;
         width: 100% !important;
     }
-    div.stButton > button:hover {
+    div.stButton > button:hover,
+    div.stButton > button[kind="primary"]:hover,
+    div.stButton > button[data-testid="stBaseButton-primary"]:hover {
         transform: translateY(-2px) !important;
-        box-shadow: 0 8px 35px rgba(16, 185, 129, 0.65) !important;
+        box-shadow: 0 8px 32px rgba(16, 185, 129, 0.6) !important;
         color: #000000 !important;
-    /* Navbar specific container and button styling for perfect horizontal & vertical alignment */
+    }
+
+    /* Secondary Action Buttons (Ghost / Outline) */
+    div.stButton > button[kind="secondary"],
+    div.stButton > button[data-testid="stBaseButton-secondary"] {
+        background: rgba(18, 27, 41, 0.85) !important;
+        color: #CBD5E1 !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 0.96rem !important;
+        letter-spacing: 0.3px !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 10px !important;
+        padding: 0.75rem 1.4rem !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+        transition: all 0.25s ease !important;
+        width: 100% !important;
+    }
+    div.stButton > button[kind="secondary"]:hover,
+    div.stButton > button[data-testid="stBaseButton-secondary"]:hover {
+        background: rgba(26, 38, 56, 0.95) !important;
+        color: #FFFFFF !important;
+        border-color: rgba(52, 211, 153, 0.4) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.2) !important;
+    }
+
+    /* Navbar specific container and button styling for sleek horizontal alignment */
     div[data-testid="stHorizontalBlock"]:has(.dg-logo) {
+        background: rgba(13, 20, 31, 0.9) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 14px !important;
+        padding: 0.45rem 1.2rem !important;
+        margin-bottom: 1.5rem !important;
+        backdrop-filter: blur(20px) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
         align-items: center !important;
-        margin-bottom: 0.2rem !important;
     }
     div[data-testid="stHorizontalBlock"]:has(.dg-logo) div[data-testid="column"] {
         display: flex !important;
         align-items: center !important;
     }
-    div[data-testid="stHorizontalBlock"]:has(.dg-logo) div.stButton > button {
+    /* Inactive navbar buttons: subtle, sleek glass pill */
+    div[data-testid="stHorizontalBlock"]:has(.dg-logo) div.stButton > button,
+    div[data-testid="stHorizontalBlock"]:has(.dg-logo) div.stButton > button[kind="secondary"],
+    div[data-testid="stHorizontalBlock"]:has(.dg-logo) div.stButton > button[data-testid="stBaseButton-secondary"] {
+        background: rgba(255, 255, 255, 0.04) !important;
+        color: #94A3B8 !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        box-shadow: none !important;
         height: 38px !important;
         min-height: 38px !important;
-        padding: 0 0.8rem !important;
+        padding: 0 0.85rem !important;
         font-size: 0.88rem !important;
-        font-weight: 700 !important;
+        font-weight: 600 !important;
         border-radius: 8px !important;
         margin: 0 !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+        transition: all 0.2s ease !important;
+        width: 100% !important;
+        white-space: nowrap !important;
+    }
+    div[data-testid="stHorizontalBlock"]:has(.dg-logo) div.stButton > button:hover,
+    div[data-testid="stHorizontalBlock"]:has(.dg-logo) div.stButton > button[kind="secondary"]:hover,
+    div[data-testid="stHorizontalBlock"]:has(.dg-logo) div.stButton > button[data-testid="stBaseButton-secondary"]:hover {
+        background: rgba(255, 255, 255, 0.09) !important;
+        color: #FFFFFF !important;
+        border-color: rgba(52, 211, 153, 0.3) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+    }
+    /* Active navbar button: subtle emerald pill highlight */
+    div[data-testid="stHorizontalBlock"]:has(.dg-logo) div.stButton > button[kind="primary"],
+    div[data-testid="stHorizontalBlock"]:has(.dg-logo) div.stButton > button[data-testid="stBaseButton-primary"] {
+        background: rgba(16, 185, 129, 0.16) !important;
+        color: #34D399 !important;
+        border: 1px solid rgba(16, 185, 129, 0.45) !important;
+        font-weight: 700 !important;
+        box-shadow: 0 0 16px rgba(16, 185, 129, 0.22) !important;
+        height: 38px !important;
+        min-height: 38px !important;
+        padding: 0 0.85rem !important;
+        font-size: 0.88rem !important;
+        border-radius: 8px !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: all 0.2s ease !important;
+        width: 100% !important;
+        white-space: nowrap !important;
     }
 
     .dg-announcement-box {
@@ -635,12 +716,14 @@ def calculate_cancellation_risk(delay_prob, weather_cond, inbound_delay, distanc
 # -----------------------------------------------------------------------------
 # 4. TOP NAVBAR (WITH ACTIVE PAGE ROUTING)
 # -----------------------------------------------------------------------------
-try:
-    nav_left, nav_right = st.columns([1.5, 2.5], vertical_alignment="center")
-except TypeError:
-    nav_left, nav_right = st.columns([1.5, 2.5])
+cur_page = st.session_state.get('page', 'landing')
 
-with nav_left:
+try:
+    nav_logo, nav_space, nav_home, nav_pred, nav_hiw = st.columns([2.6, 3.8, 1.1, 1.1, 1.4], vertical_alignment="center")
+except TypeError:
+    nav_logo, nav_space, nav_home, nav_pred, nav_hiw = st.columns([2.6, 3.8, 1.1, 1.1, 1.4])
+
+with nav_logo:
     st.markdown("""
     <div class="dg-logo">
         <svg class="dg-logo-svg" viewBox="0 0 24 24">
@@ -651,22 +734,20 @@ with nav_left:
     </div>
     """, unsafe_allow_html=True)
 
-with nav_right:
-    try:
-        btn_home, btn_pred, btn_hiw = st.columns(3, vertical_alignment="center")
-    except TypeError:
-        btn_home, btn_pred, btn_hiw = st.columns(3)
-    if btn_home.button("🏠 Home", use_container_width=True):
+with nav_home:
+    if st.button("🏠 Home", key="nav_btn_home", type="primary" if cur_page == 'landing' else "secondary", use_container_width=True):
         st.session_state['page'] = 'landing'
         st.rerun()
-    if btn_pred.button("✈️ Predict", use_container_width=True):
+
+with nav_pred:
+    if st.button("✈️ Predict", key="nav_btn_pred", type="primary" if cur_page == 'predict' else "secondary", use_container_width=True):
         st.session_state['page'] = 'predict'
         st.rerun()
-    if btn_hiw.button("💡 How It Works", use_container_width=True):
+
+with nav_hiw:
+    if st.button("💡 How It Works", key="nav_btn_hiw", type="primary" if cur_page == 'how_it_works' else "secondary", use_container_width=True):
         st.session_state['page'] = 'how_it_works'
         st.rerun()
-
-st.markdown("<hr style='border-color: rgba(255,255,255,0.06); margin: 0.4rem 0 1.2rem 0;'>", unsafe_allow_html=True)
 
 # =============================================================================
 # PAGE 1: LANDING PAGE (SCREENSHOT 1 MATCH - NO FORM HERE)
@@ -689,14 +770,18 @@ if st.session_state['page'] == 'landing':
     </div>
     """, unsafe_allow_html=True)
 
-    # Centered CTA Buttons on Landing Page
-    c_pad_l, c_btn1, c_btn2, c_pad_r = st.columns([1.2, 1.4, 1.1, 1.2])
+    # Symmetrically Centered CTA Buttons on Landing Page
+    try:
+        _, c_btn1, c_btn2, _ = st.columns([1.6, 1.4, 1.4, 1.6], vertical_alignment="center")
+    except TypeError:
+        _, c_btn1, c_btn2, _ = st.columns([1.6, 1.4, 1.4, 1.6])
+
     with c_btn1:
-        if st.button("⚡ Check My Flight Risk — Free", type="primary", use_container_width=True):
+        if st.button("⚡ Check My Flight Risk — Free", key="hero_cta_predict", type="primary", use_container_width=True):
             st.session_state['page'] = 'predict'
             st.rerun()
     with c_btn2:
-        if st.button("How It Works →", use_container_width=True):
+        if st.button("How It Works →", key="hero_cta_hiw", type="secondary", use_container_width=True):
             st.session_state['page'] = 'how_it_works'
             st.rerun()
 
@@ -707,7 +792,7 @@ if st.session_state['page'] == 'landing':
     """, unsafe_allow_html=True)
 
     # Value Props Row on Landing Page
-    st.markdown("<div style='height: 3rem;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 1.8rem;'></div>", unsafe_allow_html=True)
     vp1, vp2, vp3 = st.columns(3)
     with vp1:
         st.markdown("""
@@ -1505,10 +1590,14 @@ elif st.session_state['page'] == 'how_it_works':
             </div>
         </div>
     </div>
-    <div style="text-align:center; margin-top:2.5rem;">
+    <div style="margin-top: 2rem;"></div>
     """, unsafe_allow_html=True)
     
-    _, hiw_c, _ = st.columns([1.5, 1, 1.5])
-    if hiw_c.button("⚡ Go to Flight Predictor →", type="primary", use_container_width=True):
+    try:
+        _, hiw_c, _ = st.columns([1.5, 1.2, 1.5], vertical_alignment="center")
+    except TypeError:
+        _, hiw_c, _ = st.columns([1.5, 1.2, 1.5])
+        
+    if hiw_c.button("⚡ Go to Flight Predictor →", key="hiw_btn_goto_pred", type="primary", use_container_width=True):
         st.session_state['page'] = 'predict'
         st.rerun()
