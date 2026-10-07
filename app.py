@@ -860,6 +860,34 @@ elif st.session_state['page'] == 'predict':
                 mode = "By Route"
 
             if mode == "By Route":
+                # Quick Popular Route Presets
+                st.markdown('<div class="dg-label" style="margin-bottom:0.4rem;">⚡ Quick Popular Routes</div>', unsafe_allow_html=True)
+                q1, q2, q3, q4 = st.columns(4)
+                if q1.button("🇵🇰 KHI ➔ LHE", key="preset_khi_lhe", use_container_width=True, help="Karachi to Lahore (PIA / Airblue)"):
+                    st.session_state['selected_origin_code'] = 'KHI'
+                    st.session_state['selected_dest_code'] = 'LHE'
+                    st.session_state['selected_airline_code'] = 'PK'
+                    st.rerun()
+                if q2.button("🇵🇰 KHI ➔ ISB", key="preset_khi_isb", use_container_width=True, help="Karachi to Islamabad (Airblue / AirSial)"):
+                    st.session_state['selected_origin_code'] = 'KHI'
+                    st.session_state['selected_dest_code'] = 'ISB'
+                    st.session_state['selected_airline_code'] = 'PA'
+                    st.rerun()
+                if q3.button("🇵🇰 ISB ➔ KDU", key="preset_isb_kdu", use_container_width=True, help="Islamabad to Skardu (PIA Mountain Route)"):
+                    st.session_state['selected_origin_code'] = 'ISB'
+                    st.session_state['selected_dest_code'] = 'KDU'
+                    st.session_state['selected_airline_code'] = 'PK'
+                    st.rerun()
+                if q4.button("🇺🇸 JFK ➔ LAX", key="preset_jfk_lax", use_container_width=True, help="New York to Los Angeles"):
+                    st.session_state['selected_origin_code'] = 'JFK'
+                    st.session_state['selected_dest_code'] = 'LAX'
+                    st.session_state['selected_airline_code'] = 'AA'
+                    st.rerun()
+
+                target_orig_code = st.session_state.get('selected_origin_code', 'JFK')
+                target_dest_code = st.session_state.get('selected_dest_code', 'LAX')
+                target_airline_code = st.session_state.get('selected_airline_code', 'AA')
+
                 # 1. Airline
                 col_air_label, col_air_toggle = st.columns([3, 1.4])
                 with col_air_label:
@@ -869,7 +897,7 @@ elif st.session_state['page'] == 'predict':
 
                 default_airline_idx = 0
                 for idx, label in enumerate(airline_display_list):
-                    if '(AA)' in label or 'American Airlines (AA)' in label:
+                    if f'({target_airline_code})' in label:
                         default_airline_idx = idx
                         break
 
@@ -885,26 +913,25 @@ elif st.session_state['page'] == 'predict':
                 else:
                     c_cust1, c_cust2 = st.columns([1, 2.2])
                     with c_cust1:
-                        custom_code = st.text_input("IATA Code", value="TG", placeholder="e.g. TG, PA, OD").strip().upper()
+                        custom_code = st.text_input("IATA Code", value="PK", placeholder="e.g. PK, PA, PF, ER").strip().upper()
                     with c_cust2:
-                        custom_name = st.text_input("Airline Name", value="Thai Airways", placeholder="e.g. Thai Airways, Airblue, Batik Air")
+                        custom_name = st.text_input("Airline Name", value="Pakistan International Airlines", placeholder="e.g. PIA, Airblue, AirSial")
                     
-                    carrier_code = custom_code if custom_code else "TG"
+                    carrier_code = custom_code if custom_code else "PK"
                     carrier_name_clean = custom_name if custom_name else airline_catalog.get(carrier_code, f"Airline {carrier_code}")
                     selected_airline_display = f"{carrier_name_clean} ({carrier_code})"
 
                 # 2. From & To Route Row
                 col_from, col_arr, col_to = st.columns([1.1, 0.22, 1.1])
                 
-                # Defaults: JFK and LAX
                 default_origin_idx = 0
                 default_dest_idx = 0
                 for idx, label in enumerate(airport_labels):
-                    if '(JFK)' in label or 'New York (JFK)' in label:
+                    if f'({target_orig_code})' in label:
                         default_origin_idx = idx
                         break
                 for idx, label in enumerate(airport_labels):
-                    if '(LAX)' in label or 'Los Angeles (LAX)' in label:
+                    if f'({target_dest_code})' in label:
                         default_dest_idx = idx
                         break
 
@@ -1048,12 +1075,11 @@ elif st.session_state['page'] == 'predict':
                 if f_submode is None:
                     f_submode = "✈️ Predict by Flight #"
 
-                if f_submode == "✈️ Predict by Flight #":
-                    st.markdown('<div class="dg-label">Flight Number (e.g., TG 341, PA 201, OD 131, EK 202, AA 100)</div>', unsafe_allow_html=True)
+                    st.markdown('<div class="dg-label">Flight Number (e.g., PK 302, PA 200, PF 121, ER 502, 9P 670, AA 100)</div>', unsafe_allow_html=True)
                     f_num_input = st.text_input(
                         "Flight Number Input",
-                        value=st.session_state.get('last_flight_num', 'TG 341'),
-                        placeholder="e.g. TG 341, PA 201, OD 131, EK 202, AA 100",
+                        value=st.session_state.get('last_flight_num', 'PK 302'),
+                        placeholder="e.g. PK 302, PA 200, PF 121, ER 502, 9P 670, AA 100",
                         label_visibility="collapsed"
                     ).strip().upper()
                     st.session_state['last_flight_num'] = f_num_input
@@ -1064,8 +1090,8 @@ elif st.session_state['page'] == 'predict':
                         f_carrier_code = parsed_match.group(1)
                         f_carrier_num = parsed_match.group(2) or ""
                     else:
-                        f_carrier_code = "TG"
-                        f_carrier_num = "341"
+                        f_carrier_code = "PK"
+                        f_carrier_num = "302"
 
                     resolved_carrier_name = airline_catalog.get(f_carrier_code, f"Airline ({f_carrier_code})")
                     st.markdown(f"""
@@ -1225,11 +1251,16 @@ elif st.session_state['page'] == 'predict':
 
                 else:
                     st.markdown("#### 🧪 Historical Flight Proof Verifier")
-                    st.caption("Verify DelayGuard's blind prediction against actual recorded US DOT flight events.")
+                    st.caption("Verify DelayGuard's blind prediction against actual recorded flight events (US DOT & Pakistani domestic).")
                     
                     filter_choice = st.selectbox(
                         "Historical Flight Type",
-                        ["All Recorded Flights", "🔴 Only Delayed Flights (>= 15 mins)", "🟢 Only On-Time Flights (< 15 mins)"],
+                        [
+                            "All Recorded Flights",
+                            "🇵🇰 Pakistani Domestic Flights (PIA, Airblue, AirSial, Serene, Fly Jinnah)",
+                            "🔴 Only Delayed Flights (>= 15 mins)",
+                            "🟢 Only On-Time Flights (< 15 mins)"
+                        ],
                         label_visibility="collapsed"
                     )
 
@@ -1238,7 +1269,9 @@ elif st.session_state['page'] == 'predict':
                     batch_50_btn = h_col2.button("⚡ Run 50 Batch", use_container_width=True)
 
                     if 'hist_row' not in st.session_state or pick_f_btn:
-                        if "Only Delayed" in filter_choice:
+                        if "Pakistani Domestic" in filter_choice:
+                            sub_df = hist_df[hist_df['AIRLINE'].isin(['PK', 'PA', 'PF', 'ER', '9P'])]
+                        elif "Only Delayed" in filter_choice:
                             sub_df = hist_df[hist_df['ARRIVAL_DELAY'] >= 15]
                         elif "Only On-Time" in filter_choice:
                             sub_df = hist_df[hist_df['ARRIVAL_DELAY'] < 15]
